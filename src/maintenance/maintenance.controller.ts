@@ -1,21 +1,30 @@
-import { Controller, Delete, Get, Param, Patch, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req } from '@nestjs/common';
+import { MaintenanceDTO } from './dto/maintenance.dto';
+import { MaintenanceService } from './maintenance.service';
 
 @Controller('maintenance')
 export class MaintenanceController {
 
+    constructor(private readonly maintenanceService: MaintenanceService) {}
+
     @Get() // Sirve para consultar
-    methodGet(@Req() req: Request) {
-        return `method ${req.method} called`;
+    findAll() {
+        return this.maintenanceService.findAll();
+    }
+
+    @Get(':id') // Sirve para consultar por id
+    findOne(@Param("id") id: string) {
+        return this.maintenanceService.findOne(id);
     }
 
     @Post(':id') // Sirve para crear
-    methodPost(@Param('id') id: string) {
-        return `id ${id}.`;
+    create(@Body() maintenanceDTO: MaintenanceDTO ) {
+        return this.maintenanceService.create(maintenanceDTO);
     }
 
-    @Put() // Sirve para actualizar total
-    methodPut(@Req() req: Request) {
-        return `Method ${req.method} called`;
+    @Put(':id') // Sirve para actualizar total
+    update(@Param("id") id: string, @Body() maintenanceDTO: MaintenanceDTO) {
+        return this.maintenanceService.update(id, maintenanceDTO);
     }
 
     @Patch() // Sirve para actualizar parcial
@@ -23,8 +32,8 @@ export class MaintenanceController {
         return `Method ${req.method} called`;
     }
 
-    @Delete() // Sirve para eliminar
-    methodDelete(@Req() req: Request) {
-        return `Method ${req.method} called`;
+    @Delete(':id') // Sirve para eliminar
+    delete(@Param("id") id: string) {
+        return this.maintenanceService.delete(id);
     }
 }
