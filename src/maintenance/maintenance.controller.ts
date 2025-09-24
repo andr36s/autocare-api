@@ -17,7 +17,7 @@ export class MaintenanceController {
         return this.maintenanceService.findOne(id);
     }
 
-    @Post(':id') // Sirve para crear
+    @Post() // Sirve para crear
     create(@Body() maintenanceDTO: MaintenanceDTO ) {
         return this.maintenanceService.create(maintenanceDTO);
     }
