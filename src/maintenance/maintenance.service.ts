@@ -28,7 +28,7 @@ export class MaintenanceService {
 
     update(id: string, maintenanceDTO: MaintenanceDTO): IMaintenance | void {
         const newMaintenance = { id, ...maintenanceDTO }
-
+        
         this.maintenances = this.maintenances.map((maintenance) => {
             return maintenance.id === id ? newMaintenance : maintenance 
         })
