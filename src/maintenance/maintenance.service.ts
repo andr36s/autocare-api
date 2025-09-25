@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class MaintenanceService {
     maintenances: IMaintenance[] = [];
-    
+
     create(maintenanceDTO: MaintenanceDTO): IMaintenance {
         const maintenance = {
             id: uuidv4(),
