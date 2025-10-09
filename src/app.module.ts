@@ -4,9 +4,17 @@ import { AppService } from './app.service';
 import { MaintenanceController } from './maintenance/maintenance.controller';
 import { MaintenanceService } from './maintenance/maintenance.service';
 import { MaintenanceModule } from './maintenance/maintenance.module';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [MaintenanceModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env.develoment'],
+      isGlobal: true
+    }),
+    MongooseModule.forRoot(process.env.URI_MONGODB || ''),
+    MaintenanceModule],
   controllers: [AppController],
   providers: [AppService],
 })
