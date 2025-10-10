@@ -34,4 +34,26 @@ export class UserService {
 
         return user;
     }
+
+    async update(id: string, userDTO: UserDTO): Promise<IUser> {
+        const hash = await this.hashPassword(userDTO.password);
+        const updatedUser = { ...userDTO, password: hash };
+        const user = await this.model.findByIdAndUpdate(id, updatedUser, {new: true});
+
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado.');
+        }
+        
+        return user;
+    }
+
+    async delete(id: string): Promise<IUser> {
+        const user = await this.model.findByIdAndDelete(id);
+
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado.');
+        }
+        
+        return user;
+    }
 }
