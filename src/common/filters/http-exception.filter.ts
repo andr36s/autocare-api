@@ -10,6 +10,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const response = ctx.getResponse();
         const request = ctx.getRequest();
 
+        if(exception?.name === 'CastError' && exception?.kind === 'ObjectId') {
+            const status = HttpStatus.BAD_REQUEST;
+            const msg = `El id ${exception?.value} no es valido.`;
+
+            this.logger.warn(`Status: ${status} Error: ${JSON.stringify(msg)}`);
+            return response.status(status).json({
+                time: new Date().toISOString(),
+                path: request.url,
+                error: msg
+            })
+        }
+
         const status = exception instanceof HttpException
             ? exception.getStatus()
             : HttpStatus.INTERNAL_SERVER_ERROR;
